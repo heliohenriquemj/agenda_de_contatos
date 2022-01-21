@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showContactPage();
+          _showContactPage(Contact(0, "", "", "",""));
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.red,
@@ -89,28 +89,26 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       onTap: () {
-        _showContactPage(contact: contacts[index]);
+        _showContactPage(contacts[index]);
       },
     );
   }
 
-  void _showContactPage({Contact? contact}) async {
-    if (contact != null) {
-      final recContact = await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ContactPage(
-                    contact: contact,
-                  )));
-      if (recContact != null) {
-        if (contact != null) {
-          await helper.updateContact(recContact);
-          _getAllContatcs();
-        } else {
-          await helper.saveContact(recContact);
-        }
+  void _showContactPage(Contact? contact) async {
+    final recContact = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ContactPage(
+                  contact: contact,
+                )));
+    if (recContact != null) {
+      if (contact != null) {
+        await helper.updateContact(recContact);
         _getAllContatcs();
+      } else {
+        await helper.saveContact(recContact);
       }
+      _getAllContatcs();
     }
   }
 

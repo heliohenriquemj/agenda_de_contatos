@@ -2,7 +2,7 @@ import 'package:agenda_contatos/helpers/contact_helper.dart';
 import 'package:flutter/material.dart';
 
 class ContactPage extends StatefulWidget {
-  final Contact contact;
+  final Contact? contact;
 
   const ContactPage({Key? key, required this.contact}) : super(key: key);
 
@@ -24,9 +24,9 @@ class _ContactPageState extends State<ContactPage> {
     super.initState();
 
     if (widget.contact == null) {
-      _editedContact = Contact();
+      _editedContact = Contact(0, "", "", "", "");
     } else {
-      _editedContact = Contact.fromMap(widget.contact.toMap());
+      _editedContact = Contact.fromMap(widget.contact!.toMap());
 
       _nameController.text = _editedContact.name;
       _emailController.text = _editedContact.email;
@@ -39,7 +39,7 @@ class _ContactPageState extends State<ContactPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: Text(_editedContact.name ?? "Novo Contato"),
+        title: Text(_editedContact.name),
         centerTitle: true,
       ),
       floatingActionButton: const FloatingActionButton(
