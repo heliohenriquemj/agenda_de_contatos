@@ -1,5 +1,6 @@
 import 'package:agenda_contatos/helpers/contact_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ContactPage extends StatefulWidget {
   final Contact? contact;
@@ -11,6 +12,7 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
+  final ImagePicker _picker = ImagePicker();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -19,7 +21,7 @@ class _ContactPageState extends State<ContactPage> {
 
   late Contact _editedContact;
 
-  get _willPopCallback => null;
+  // get _willPopCallback => null;
 
   @override
   void initState() {
@@ -34,12 +36,13 @@ class _ContactPageState extends State<ContactPage> {
       _emailController.text = _editedContact.email;
       _phoneController.text = _editedContact.phone;
 
-      final _nameFocus = FocusNode();
+      // final _nameFocus = FocusNode();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // ignore: prefer_typing_uninitialized_variables
     var _nameFocus;
     return WillPopScope(
       onWillPop: () async {
@@ -79,6 +82,14 @@ class _ContactPageState extends State<ContactPage> {
                         DecorationImage(image: AssetImage("images/person.png")),
                   ),
                 ),
+                onTap: () {
+                  _picker.pickImage(source: ImageSource.camera).then((file) {
+                    if (file == null) return;
+                    setState(() {
+                      _editedContact.img = file.path;
+                    });
+                  });
+                },
               ),
               TextField(
                 controller: _nameController,
